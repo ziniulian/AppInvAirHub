@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.invengo.rfid.airhubhd" >
+
+	<!-- 写 SD 卡-->
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+	<!-- 网络访问 -->
+	<uses-permission android:name="android.permission.INTERNET"/>
+
+	<!-- 查看当前网络状态 -->
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+
+	<!-- 摄像头 -->
+	<!-- <uses-permission android:name="android.permission.CAMERA"/> -->
+
+	<!-- 闪光灯 -->
+	<!-- <uses-permission android:name="android.permission.FLASHLIGHT"/> -->
+
+	<!-- 蓝牙开关 -->
+	<!-- <uses-permission android:name="android.permission.BLUETOOTH"/> -->
+
+	<!-- 蓝牙操作 -->
+	<!-- <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/> -->
+
+	<application
+		android:allowBackup="true"
+		android:icon="@mipmap/invengo_logo"
+		android:label="@string/app_name"
+		android:hardwareAccelerated="true"
+		android:theme="@android:style/Theme.Light.NoTitleBar" >
+		<!--
+			android:theme="@android:style/Theme.Light.NoTitleBar"		// 无标题
+            android:theme="@android:style/Theme.Light.NoTitleBar.Fullscreen"		// 全屏
+		-->
+		<activity
+			android:launchMode="singleInstance"
+			android:screenOrientation="portrait"
+			android:name=".Ma" >
+		<!--
+            android:launchMode="singleInstance"		// 单例运行
+			android:screenOrientation="landscape"	// 横屏
+            android:screenOrientation="portrait"	// 竖屏
+		-->
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<!--<category android:name="android.intent.category.HOME"/>-->		<!--开机自启动-->
+				<!--<category android:name="android.intent.category.DEFAULT"/>-->	<!--开机自启动-->
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+	</application>
+
+</manifest>
