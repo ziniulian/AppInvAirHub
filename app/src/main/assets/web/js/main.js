@@ -2,22 +2,25 @@ mn = {
 	signIn: function (uid, pw) {
 		var r = false;
 		try {
-			var s = rfdo.signIn(uid, pw);
-			var u = JSON.parse(s);
-			rfdo.kvSet("userId", u[0][0].syscode);
-			rfdo.kvSet("user",
-				"{\"id\":\"" + u[0][0].syscode +
-				"\",\"nam\":\"" + u[0][0].sysname +
-				"\",\"rid\":\"" + u[0][0].sysuerid + "\"}"
-			);
-			r = true;
+			var u = JSON.parse(rfdo.qryWs("login_json", "{\"usercode\":\""
+				+ uid + "\",\"userpwd\":\""
+				+ pw + "\"}"));
+			if (u.ok) {
+				rfdo.kvSet("userId", u.dat[0][0].syscode);
+				rfdo.kvSet("user",
+					"{\"id\":\"" + u.dat[0][0].syscode +
+					"\",\"nam\":\"" + u.dat[0][0].sysname +
+					"\",\"rid\":\"" + u.dat[0][0].sysuerid + "\"}"
+				);
+				r = true;
+			}
 		} catch (e) {
 // mn.log(e.toString());
 		}
 		return r;
 	},
 	signOut: function () {
-		rfdo.signOut();
+		rfdo.kvDel("user");
 	},
 	getUser: function () {
 		var u = rfdo.kvGet("user");
@@ -42,6 +45,9 @@ mn = {
 	},
 	kvDel: function (k) {
 		return rfdo.kvDel(k);
+	},
+	qryWs: function (m, p) {
+		return rfdo.qryWs(m, p);
 	},
 
 	log: function (msg) {

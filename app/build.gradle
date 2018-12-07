@@ -8,8 +8,8 @@ android {
 		applicationId "com.invengo.rfid.airhubhd"
 		minSdkVersion 11
 		targetSdkVersion 17
-		versionCode 0
-		versionName "1.0.0"
+		versionCode 1
+		versionName "1.0.1"
 	}
 
 	buildTypes {
@@ -34,5 +34,5 @@ dependencies {
 	compile files('libs/XC2910/com/invengo.util.jar')
 	compile files('libs/XC2910/bar/invengo.dev.barcode.jar')
 	compile files('libs/XC2910/bar/invengo.system.comm.jar')
-	compile files('libs/ksoap2-android-assembly-2.6.4-jar-with-dependencies.jar')
+	compile files('libs/ksoap2-android-assembly-3.4.0-jar-with-dependencies.jar')
 }

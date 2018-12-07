@@ -1,10 +1,18 @@
 package tk.ziniulian.util.dao;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import org.ksoap2.SoapEnvelope;
 import org.ksoap2.serialization.SoapObject;
 import org.ksoap2.serialization.SoapPrimitive;
 import org.ksoap2.serialization.SoapSerializationEnvelope;
 import org.ksoap2.transport.HttpTransportSE;
+
+import java.lang.reflect.Type;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 /**
  * 访问WebService
@@ -12,16 +20,18 @@ import org.ksoap2.transport.HttpTransportSE;
  */
 
 public class WebSrv {
-	private String url;		// 服务地址
 	private String npc;		// 命名空间
+	private HttpTransportSE ht;
+	private Gson gson = new Gson();
+	private Type tm = new TypeToken<LinkedHashMap<String, String>>(){}.getType();
 
 	public WebSrv (String u, String n) {
-		this.url = u;
 		this.npc = n;
+		this.ht = new HttpTransportSE(u);
 	}
 
 	public WebSrv setUrl(String url) {
-		this.url = url;
+		this.ht.setUrl(url);
 		return this;
 	}
 
@@ -30,33 +40,22 @@ public class WebSrv {
 		return this;
 	}
 
-	public String qry (String mnam) {
-		return qry(mnam, null, null);
-	}
-
-	public String qry (String mnam, String[] ks, Object[] vs) {
+	private String qry (SoapObject req) {
 		String r = null;
 
-		SoapObject req = new SoapObject(npc, mnam);
-		if (vs != null) {
-			for (int i = 0; i < ks.length; i ++) {
-				req.addProperty(ks[i], vs[i]);
-			}
-		}
-
-//		SoapSerializationEnvelope msg = new SoapSerializationEnvelope(SoapEnvelope.VER11);
-		SoapSerializationEnvelope msg = new SoapSerializationEnvelope(SoapEnvelope.VER12);
+		SoapSerializationEnvelope msg = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+//		SoapSerializationEnvelope msg = new SoapSerializationEnvelope(SoapEnvelope.VER12);
 		msg.bodyOut = req;
 //		msg.dotNet = true;
-		HttpTransportSE ht = new HttpTransportSE(url);
 
 		try {
-//			ht.call(npc + mnam, msg);
+//			ht.call(npc + req.getName(), msg);
 			ht.call(null, msg);
 			SoapPrimitive res = (SoapPrimitive) msg.getResponse();
 			if (res != null) {
 				r = res.toString();
 			}
+			ht.getServiceConnection().openOutputStream().close();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -64,24 +63,89 @@ public class WebSrv {
 		return r;
 	}
 
+	public String qry (String mnam) {
+		return qry(mnam, null);
+	}
+
+	public String qry (String mnam, String[] ks, Object[] vs) {
+		SoapObject req = new SoapObject(npc, mnam);
+		if (ks != null && vs != null) {
+			for (int i = 0; i < ks.length; i ++) {
+				req.addProperty(ks[i], vs[i]);
+			}
+		}
+		return qry(req);
+	}
+
+	public String qry (String mnam, LinkedHashMap<String, String> p) {
+		SoapObject req = new SoapObject(npc, mnam);
+		if (p != null) {
+			Iterator<Entry<String, String>> iterator = p.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Entry<String, String> entry = iterator.next();
+				req.addProperty(entry.getKey(), entry.getValue());
+			}
+		}
+		return qry(req);
+	}
+
+	public String jsonQry (String mnam, String parmJson) {
+		LinkedHashMap<String, String> m = null;
+		if (parmJson != null) {
+			try {
+				m = gson.fromJson(parmJson, tm);
+			} catch (Exception e) {
+				 e.printStackTrace();
+			}
+		}
+		return qry(mnam, m);
+	}
+
 	public static void main (String[] args) {
+		Gson gson = new Gson();
+
 		// 测试
-		WebSrv ws = new WebSrv("http://192.169.0.35:8888/room/DataWebServicePort?wsdl", "http://192.169.0.35:8888/");
-//		System.out.println(ws.qry("hello"));
-//		System.out.println(ws.qry("login_json",
-//				new String[] {"usercode", "userpwd"},
-//				new String[] {"admin", "admin"}
+//		WebSrv ws = new WebSrv("http://127.0.0.1:8080/TestWebService/ws", "http://ws2ws.lzr.invengo.com/");
+//		WebSrv ws = new WebSrv("http://192.169.0.35:8888/room/DataWebServicePort?wsdl", "http://192.169.0.35:8888/");
+		WebSrv ws = new WebSrv("http://192.169.0.35:8080/Ws2ws/ws", "http://ws2ws.lzr.invengo.com/");
+//		System.out.println(ws.jsonQry("setWs", "{" +
+//				"\"url\":\"http://192.169.0.35:8888/room/DataWebServicePort\"," +
+//				"\"npc\":\"http://192.169.0.35:8888/\"" +
+//		"}"));
+//		System.out.println(ws.qry("call",
+//				new String[] {"meth", "parm"},
+//				new String[] {"hello", null}
 //		));
-//		System.out.println(ws.qry("getrksqlist_json"));
-//		System.out.println(ws.qry("getdevice_rkjson",
-//				new String[] {"infoid"},
-//				new String[] {"402880e466ef70480166ef75d0890001"}
-//		));
-//		System.out.println(ws.qry("rkdevicesave_json"));
-//		System.out.println(ws.qry("getcksqlist_json"));
-//		System.out.println(ws.qry("ckspwedivice_json",
-//				new String[] {"outWeInfoid"},
-//				new String[] {"ff80808166ce68fb0166ce6fe0ff000c"}
-//		));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"hello\"," +
+//				"\"parm\":null" +
+//		"}"));
+		System.out.println(ws.jsonQry("call", "{" +
+				"\"meth\":\"login_json\"," +
+				"\"parm\":" + gson.toJson("{" +
+					"\"usercode\":\"admin\"," +
+					"\"userpwd\":\"admin\"" +
+				"}") +
+		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"getrksqlist_json\"," +
+//				"\"parm\":null" +
+//		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"getdevice_rkjson\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"infoid\":\"402880e4676f693901676f6ddb5e0001\"" +
+//				"}") +
+//		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"getcksqlist_json\"," +
+//				"\"parm\":null" +
+//		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"ckspwedivice_json\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"outWeInfoid\":\"ff80808166ce68fb0166ce6fe0ff000c\"" +
+//				"}") +
+//		"}"));
 	}
 }

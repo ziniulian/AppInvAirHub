@@ -78,11 +78,23 @@ public class Web {
 	// 数据库初始化
 	public void initDb() {
 		ldao = new DbLocal(ma);
-		if (ldao.kvGet("url") == null) {
-			setUrl("192.169.0.35", "8888");
-		} else {
-			setUrl(null, null);
+		initWs();
+	}
+
+	// WebService初始化
+	protected void initWs() {
+		String ip = ldao.kvGet("urlIp");
+		String port = ldao.kvGet("urlPort");
+		String npc = ldao.kvGet("npc");
+		if (ip == null) {
+			ip = "192.169.0.35";
+			port = "8080";
+			npc = "http://ws2ws.lzr.invengo.com/";
+			ldao.kvSet("urlIp", ip);
+			ldao.kvSet("urlPort", port);
+			ldao.kvSet("npc", npc);
 		}
+		ws = new WebSrv(megUrl(ip, port), npc);
 	}
 
 	// 二维码设置
@@ -124,7 +136,6 @@ public class Web {
 	}
 
 /*------------------- RFID ---------------------*/
-
 	@JavascriptInterface
 	public boolean isRfidBusy () {
 		return rfd.isBusy();
@@ -156,7 +167,6 @@ public class Web {
 	}
 
 /*------------------- 二维码 ---------------------*/
-
 	@JavascriptInterface
 	public boolean isQrBusy() {
 		return qr.isBusy();
@@ -173,7 +183,6 @@ public class Web {
 	}
 
 /*------------------- 数据库 ---------------------*/
-
 	@JavascriptInterface
 	public String kvGet(String k) {
 		return ldao.kvGet(k);
@@ -189,20 +198,11 @@ public class Web {
 		ldao.kvDel(k);
 	}
 
-/*------------------- 登录 ---------------------*/
-	// 用户登录
+/*------------------- WebService ---------------------*/
 	@JavascriptInterface
-	public String signIn (String uid, String pw) {
-		return ws.qry("login_json",
-			new String[] {"usercode", "userpwd"},
-			new String[] {uid, pw}
-		);
-	}
-
-	// 注销用户
-	@JavascriptInterface
-	public void signOut () {
-		ldao.kvDel("user");
+	public String qryWs(String method, String parm) {
+//		return ws.jsonQry(method, parm);
+		return ws.jsonQry("call", "{\"meth\":\"" + method + "\",\"parm\":" + gson.toJson(parm) + "}");
 	}
 
 /*------------------- 关于 ---------------------*/
@@ -212,28 +212,17 @@ public class Web {
 	}
 
 /*------------------- 设置 ---------------------*/
-	// 设置IP、端口、命名空间
+	// 设置IP、端口
 	@JavascriptInterface
 	public int setUrl(String ip, String port) {
-		String u, n;
-		if (ip == null) {
-			u = ldao.kvGet("url");
-			n = ldao.kvGet("npc");
-		} else {
-			ldao.kvSet("urlIp", ip);
-			ldao.kvSet("urlPort", port);
-			n = "http://" + ip + ":" + port + "/";
-			u = n + "room/DataWebServicePort?wsdl";
-			ldao.kvSet("url", u);
-			ldao.kvSet("npc", n);
-		}
-		if (ws == null) {
-			ws = new WebSrv(u, n);
-		} else {
-			ws.setUrl(u);
-			ws.setNpc(n);
-		}
+		ldao.kvSet("urlIp", ip);
+		ldao.kvSet("urlPort", port);
+		ws.setUrl(megUrl(ip, port));
 		return 1;
+	}
+
+	protected String megUrl(String ip, String port) {
+		return "http://" + ip + ":" + port + "/Ws2ws/ws";
 	}
 
 /*------------------- 其它 ---------------------*/
