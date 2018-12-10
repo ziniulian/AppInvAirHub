@@ -106,11 +106,19 @@ public class WebSrv {
 
 		// 测试
 //		WebSrv ws = new WebSrv("http://127.0.0.1:8080/TestWebService/ws", "http://ws2ws.lzr.invengo.com/");
-//		WebSrv ws = new WebSrv("http://192.169.0.35:8888/room/DataWebServicePort?wsdl", "http://192.169.0.35:8888/");
+//		WebSrv ws = new WebSrv("http://127.0.0.1:8080/Ws2ws/ws", "http://ws2ws.lzr.invengo.com/");
+//		WebSrv ws = new WebSrv("http://192.169.0.35:8888/room/DataWebServicePort?wsdl", "http://sys.action.web.cw.com/");
 		WebSrv ws = new WebSrv("http://192.169.0.35:8080/Ws2ws/ws", "http://ws2ws.lzr.invengo.com/");
+//		System.out.println(ws.jsonQry("getdevice_rkjson", "{" +
+//				"\"infoid\":\"402880e4676f693901676f6ddb5e0001\"" +
+//		"}"));
+//		System.out.println(ws.jsonQry("login_json", "{" +
+//				"\"usercode\":\"admin\"," +
+//				"\"userpwd\":\"admin\"" +
+//		"}"));
 //		System.out.println(ws.jsonQry("setWs", "{" +
 //				"\"url\":\"http://192.169.0.35:8888/room/DataWebServicePort\"," +
-//				"\"npc\":\"http://192.169.0.35:8888/\"" +
+//				"\"npc\":\"http://sys.action.web.cw.com/\"" +
 //		"}"));
 //		System.out.println(ws.qry("call",
 //				new String[] {"meth", "parm"},
@@ -120,23 +128,23 @@ public class WebSrv {
 //				"\"meth\":\"hello\"," +
 //				"\"parm\":null" +
 //		"}"));
-		System.out.println(ws.jsonQry("call", "{" +
-				"\"meth\":\"login_json\"," +
-				"\"parm\":" + gson.toJson("{" +
-					"\"usercode\":\"admin\"," +
-					"\"userpwd\":\"admin\"" +
-				"}") +
-		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"login_json\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"usercode\":\"admin\"," +
+//					"\"userpwd\":\"admin\"" +
+//				"}") +
+//		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"getrksqlist_json\"," +
 //				"\"parm\":null" +
 //		"}"));
-//		System.out.println(ws.jsonQry("call", "{" +
-//				"\"meth\":\"getdevice_rkjson\"," +
-//				"\"parm\":" + gson.toJson("{" +
-//					"\"infoid\":\"402880e4676f693901676f6ddb5e0001\"" +
-//				"}") +
-//		"}"));
+		System.out.println(ws.jsonQry("call", "{" +
+				"\"meth\":\"getdevice_rkjson\"," +
+				"\"parm\":" + gson.toJson("{" +
+					"\"infoid\":\"402880e4676f693901676f6ddb5e0001\"" +
+				"}") +
+		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"getcksqlist_json\"," +
 //				"\"parm\":null" +

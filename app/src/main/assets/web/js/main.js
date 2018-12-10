@@ -1,4 +1,5 @@
 mn = {
+/****************** 登录 ******************/
 	signIn: function (uid, pw) {
 		var r = false;
 		try {
@@ -6,11 +7,12 @@ mn = {
 				+ uid + "\",\"userpwd\":\""
 				+ pw + "\"}"));
 			if (u.ok) {
-				rfdo.kvSet("userId", u.dat[0][0].syscode);
+				u = u.SYSUSER[0];
+				rfdo.kvSet("userId", u.syscode);
 				rfdo.kvSet("user",
-					"{\"id\":\"" + u.dat[0][0].syscode +
-					"\",\"nam\":\"" + u.dat[0][0].sysname +
-					"\",\"rid\":\"" + u.dat[0][0].sysuerid + "\"}"
+					"{\"id\":\"" + u.syscode +
+					"\",\"nam\":\"" + u.sysname +
+					"\",\"rid\":\"" + u.sysuerid + "\"}"
 				);
 				r = true;
 			}
@@ -30,6 +32,8 @@ mn = {
 			return null;
 		}
 	},
+
+/****************** 基础方法 ******************/
 	getVersion: function () {
 		return rfdo.getVersion();
 	},

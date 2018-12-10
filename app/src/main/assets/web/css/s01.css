@@ -90,7 +90,7 @@
 .hom_top {
     height: 10%;
     font-weight: bolder;
-    padding-left: 1rem;
+    padding-left: 0.5rem;
     line-height: 1.8;
 }
 .hom_body {
@@ -114,7 +114,7 @@
 	padding-left: 17%;
 	width: 28%;
 	line-height: 4;
-	background-color: rgba(255, 255, 255, 0.6);
+	background-color: rgba(222, 240, 255, 0.8);
 	color: #222;
 	background-repeat: no-repeat;
 	background-position: 0.3rem center;
@@ -201,12 +201,88 @@
 	width: 55%;
 }
 
-/*---------------------- ... ----------------------*/
-.a_body {
-	height: 82%;
+/*---------------------- 待入库清单 ----------------------*/
+.wh_list {
+    display: block;
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+	background-color: rgba(222, 240, 255, 0.8);
+    color: #222;
+}
+.wh_list_scd {
+    background-color: rgba(250, 230, 0, 0.3);
+}
+.wh_list_nam {
+    font-weight: bolder;
+}
+.wh_list_remark {
+    font-style: italic;
+    text-align: right;
+    color: #666;
+}
+
+/*---------------------- 入库 ----------------------*/
+.wh_body {
+	height: 80%;
 	overflow-x: hidden;
 	overflow-y: auto;
 }
-.a_bot {
-	height: 8%;
+.wh_bot {
+	height: 10%;
 }
+.wh_out_tb {
+    width: 95%;
+    margin: 0 auto;
+    border-collapse: separate;
+    border-spacing: 0 0.8rem;
+}
+.wh_out_tb tr {
+    background-color: rgba(222, 240, 255, 0.8);
+}
+.wh_out_tb_img {
+    width: 12%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	background-size: contain;
+}
+/* 完全匹配 */
+.wh_out_tb_img_ok {
+    background-image: url(../img/stmatch.png);
+}
+/* 部分匹配 */
+.wh_out_tb_img_ok2 {
+    background-image: url(../img/stcover.png);
+}
+/* 准备匹配 */
+.wh_out_tb_img_rdy {
+    background-image: url(../img/sttmp.png);
+}
+/* 未匹配 */
+.wh_out_tb_img_no {
+    background-image: url(../img/stplan.png);
+}
+.wh_tb {
+    width: 99%;
+    /* margin-left: 3%; */
+    border-spacing: 0 0.5rem;
+}
+.wh_tb tr {
+    background-color: transparent;
+}
+.wh_tb tr:hover {
+    background-color: transparent;
+}
+.wh_tb td {
+    word-break:break-all;
+}
+.wh_tb_k {
+    width: 30%;
+    /* padding-right: 2%; */
+    text-align: right;
+}
+.wh_tb_g {
+    width: 6%;
+    text-align: center;
+}
+
+/*---------------------- ... ----------------------*/

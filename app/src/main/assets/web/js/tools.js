@@ -1,5 +1,6 @@
 // 通用工具
 tools = {
+
 	// 信息提示
 	memo: {
 		tid: 0,
@@ -44,6 +45,20 @@ tools = {
 				this.til = "";
 			}
 		}
+	},
+
+	// 获取GET参数
+	getUrlReq: function () {
+		var url = location.search;
+		var theRequest = {};
+		if (url.indexOf("?") != -1) {
+			url = url.substr(1).split("&");
+			for(var i = 0; i < url.length; i ++) {
+				var str = url[i].split("=");
+				theRequest[str[0]] = decodeURIComponent(str[1]);
+			}
+		}
+		return theRequest;
 	}
 
 };
