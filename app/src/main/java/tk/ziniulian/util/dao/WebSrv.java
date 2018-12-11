@@ -139,12 +139,20 @@ public class WebSrv {
 //				"\"meth\":\"getrksqlist_json\"," +
 //				"\"parm\":null" +
 //		"}"));
-		System.out.println(ws.jsonQry("call", "{" +
-				"\"meth\":\"getdevice_rkjson\"," +
-				"\"parm\":" + gson.toJson("{" +
-					"\"infoid\":\"402880e4676f693901676f6ddb5e0001\"" +
-				"}") +
-		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"getdevice_rkjson\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"infoid\":\"402880e4676f693901676f6ddb5e0001\"" +
+//				"}") +
+//		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"rkdevicesave_json\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"dbm\":\"SJSJ00100001000201812100001\"" +
+//					",\"hjh\":\"\"" +
+//					",\"sysuerid\":\"111\"" +
+//				"}") +
+//		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"getcksqlist_json\"," +
 //				"\"parm\":null" +

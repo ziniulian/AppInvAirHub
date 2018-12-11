@@ -1,21 +1,18 @@
 function init() {
-	dat.flush(dat.getDat());
+	dat.getDat();
 }
 
 dat = {
 	method: "getrksqlist_json",
 	link: "whIn.html?rid=",
+	tbNam: "STORAGES_IN",
+	idNam: "infoid",
 
 	getDat: function () {
-		var r = null;
 		var o = mn.qryWs(dat.method, null);
-		if (o) {
-			o = JSON.parse(o);
-			if (o.ok) {
-				r = o.STORAGES_IN;
-			}
+		if (o.ok) {
+			dat.flush(o[dat.tbNam]);
 		}
-		return r;
 	},
 
 	flush: function (d) {
@@ -25,7 +22,7 @@ dat = {
 			for (i = 0; i < d.length; i ++) {
 				a = document.createElement("a");
 				a.className = "wh_list";
-				a.href = dat.link + d[i].infoid + "&nam=" + d[i].bh;
+				a.href = dat.link + d[i][dat.idNam] + "&nam=" + d[i].bh;
 				a.ontouchstart = function () {
 					this.className = "wh_list wh_list_scd";
 				}

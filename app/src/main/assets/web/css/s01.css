@@ -239,8 +239,12 @@
 .wh_out_tb tr {
     background-color: rgba(222, 240, 255, 0.8);
 }
+.wh_out_tb td {
+    position: relative;
+}
 .wh_out_tb_img {
-    width: 12%;
+    width: 15%;
+    height: 2rem;
 	background-repeat: no-repeat;
 	background-position: center center;
 	background-size: contain;
@@ -262,8 +266,7 @@
     background-image: url(../img/stplan.png);
 }
 .wh_tb {
-    width: 99%;
-    /* margin-left: 3%; */
+    width: 100%;
     border-spacing: 0 0.5rem;
 }
 .wh_tb tr {
@@ -276,13 +279,17 @@
     word-break:break-all;
 }
 .wh_tb_k {
-    width: 30%;
-    /* padding-right: 2%; */
     text-align: right;
 }
 .wh_tb_g {
-    width: 6%;
+    width: 5%;
     text-align: center;
 }
-
-/*---------------------- ... ----------------------*/
+.wh_tb_t {
+    position: absolute;
+    top: 0;
+    right: 0.2rem;
+    font-style: italic;
+    text-align: right;
+    color: #666;
+}

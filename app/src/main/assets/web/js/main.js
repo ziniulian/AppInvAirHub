@@ -51,7 +51,11 @@ mn = {
 		return rfdo.kvDel(k);
 	},
 	qryWs: function (m, p) {
-		return rfdo.qryWs(m, p);
+		return JSON.parse(rfdo.qryWs(m, p));
+	},
+
+	music: function (typ) {
+		rfdo.music(typ);
 	},
 
 	log: function (msg) {

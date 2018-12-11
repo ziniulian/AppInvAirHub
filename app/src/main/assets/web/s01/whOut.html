@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>WhIn</title>
+		<title>WhOut</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 
@@ -11,7 +11,8 @@
 		<script src="../js/main.js"></script>
 		<script src="../js/tools.js"></script>
 		<script src="../js/rfid.js"></script>
-		<script src="../js/whIn.js"></script>
+		<!-- <script src="../js/whIn.js"></script> -->
+		<script src="../js/whOut.js"></script>
 
 		<style type="text/css">
 		</style>
@@ -20,19 +21,43 @@
 	<body>
 		<div id="boso" class="boso Lc_noadr hom_bg">
 			<div class="hom_top clr_bar bfs">
-				入库.<span id="namDom"></span>
+				出库.<span id="namDom"></span>
 			</div>
 			<div class="wh_bot midOut">
 				<div class="midTop"></div><!--
 				--><div class="midSub mfs">
-					已入库：<span id="okNumDom">0</span> ，
+					已出库：<span id="okNumDom">0</span> ，
 					总数：<span id="numDom">0</span>
 				</div>
 			</div>
 			<div class="wh_body">
 				<table class="wh_out_tb">
+					<tbody id="rdyListDom"></tbody>
 					<tbody id="noListDom"></tbody>
-					<tbody id="okListDom"></tbody>
+					<tbody id="okListDom">
+						<!-- <tr>
+							<td>
+								<table class="wh_tb sfs">
+									<tr>
+										<td class="wh_out_tb_img wh_out_tb_img_ok"></td>
+										<td class="wh_tb_g"></td>
+										<td>名称</td>
+									</tr>
+									<tr>
+										<td class="wh_tb_k">S/N</td>
+										<td class="wh_tb_g">:</td>
+										<td>aaaa</td>
+									</tr>
+									<tr>
+										<td class="wh_tb_k">型号</td>
+										<td class="wh_tb_g">:</td>
+										<td>aaaabbbbbbbbbbbcccccccccccdddddddddd</td>
+									</tr>
+								</table>
+								<div class="wh_tb_t sfs">1000</div>
+							</td>
+						</tr> -->
+					</tbody>
 				</table>
 			</div>
 		</div>

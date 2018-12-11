@@ -1,10 +1,13 @@
 package com.invengo.rfid.airhubhd.entity;
 
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.util.Log;
 import android.webkit.JavascriptInterface;
 
 import com.google.gson.Gson;
 import com.invengo.rfid.airhubhd.Ma;
+import com.invengo.rfid.airhubhd.R;
 import com.invengo.rfid.airhubhd.enums.EmUh;
 import com.invengo.rfid.airhubhd.enums.EmUrl;
 
@@ -32,14 +35,18 @@ public class Web {
 	private WebSrv ws = null;
 	private Ma ma;
 
+	// 声音
+	private SoundPool sp = null;
+	private int music_err;
+	private int music_ok;
+	private int music_tag;
+
 	public Web (Ma m) {
 		this.ma = m;
 	}
 
 	// 读写器设置
 	public void initRd () {
-		rfd.setPwd(new byte[] {0x20, 0x26, 0x31, 0x07});
-		rfd.setHex(true);
 		rfd.setPm(EmPushMod.Catch);
 		rfd.setTagListenter(new InfTagListener() {
 			@Override
@@ -119,6 +126,14 @@ public class Web {
 			}
 		});
 		qr.init();
+	}
+
+	// 声音初始化
+	public void initMusic () {
+		sp = new SoundPool(3, AudioManager.STREAM_SYSTEM, 5);
+		music_err = sp.load(ma, R.raw.error, 1);
+		music_ok = sp.load(ma, R.raw.tag, 1);
+		music_tag = sp.load(ma, R.raw.click, 1);
 	}
 
 	public void open() {
@@ -201,8 +216,12 @@ public class Web {
 /*------------------- WebService ---------------------*/
 	@JavascriptInterface
 	public String qryWs(String method, String parm) {
-//		return ws.jsonQry(method, parm);
-		return ws.jsonQry("call", "{\"meth\":\"" + method + "\",\"parm\":" + gson.toJson(parm) + "}");
+//		String s = ws.jsonQry(method, parm);
+		String s = ws.jsonQry("call", "{\"meth\":\"" + method + "\",\"parm\":" + gson.toJson(parm) + "}");
+		if (s == null) {
+			s = "{\"ok\": false, \"error\": \"网络故障！\"}";
+		}
+		return s;
 	}
 
 /*------------------- 关于 ---------------------*/
@@ -231,4 +250,21 @@ public class Web {
 		Log.i("---- Web ----", msg);
 	}
 
+	@JavascriptInterface
+	public void music(int typ) {
+		switch (typ) {
+			case 0:
+				typ = music_err;
+				break;
+			case 1:
+				typ = music_ok;
+				break;
+			case 2:
+				typ = music_tag;
+				break;
+			default:
+				return;
+		}
+		sp.play(typ, 1, 1, 0, 0, 1);
+	}
 }

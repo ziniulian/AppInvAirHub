@@ -30,10 +30,14 @@ public class Ma extends Activity {
 		setContentView(R.layout.activity_ma);
 		ver = AdrSys.getVerNam(this);
 
+		// 声音初始化
+		w.initMusic();
+
 		// 数据库初始化
 		w.initDb();
+
 		// 读写器初始化
-//		w.initRd();
+		w.initRd();
 
 		// 页面设置
 		wv = (WebView)findViewById(R.id.wv);
@@ -65,12 +69,8 @@ public class Ma extends Activity {
 					EmUrl e = getCurUi();
 					if (e != null) {
 						switch (getCurUi()) {
-							case ScanTt:
-							case ScanTmpTt:
+							case WhIn:
 								w.rfidScan();
-								break;
-							case QrTt:
-								w.qrScan();
 								break;
 						}
 					}

@@ -4,7 +4,7 @@ function init() {
 		dat.rid = o.rid;
 		namDom.innerHTML = o.nam;
 		dat.user = mn.getUser();
-		dat.getDat();
+		// dat.getDat();
 	}
 }
 
@@ -137,13 +137,12 @@ dat = {
 		if (s.ok) {
 			// 保存成功
 			o.whStat = 1;
-			dat.oknum ++;
 			noListDom.removeChild(o.whDoe);
 			o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_ok";
 			okListDom.appendChild(o.whDoe);
 			mn.music(1);
-			r = true;
 			dat.flushNum();
+			r = true;
 		}
 
 		return r;
