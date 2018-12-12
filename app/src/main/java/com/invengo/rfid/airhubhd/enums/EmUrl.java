@@ -20,6 +20,7 @@ public enum EmUrl {
 	QrTt("file:///android_asset/test/testQR/qrDemo.html"),
 
 	// 主页
+	Qry("file:///android_asset/web/s01/qry.html"),
 	Transition("file:///android_asset/web/s01/transition.html"),
 	Setting("file:///android_asset/web/s01/setting.html"),
 	SignIn("file:///android_asset/web/s01/signIn.html"),

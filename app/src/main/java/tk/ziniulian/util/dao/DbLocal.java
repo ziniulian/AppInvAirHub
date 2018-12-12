@@ -63,11 +63,26 @@ public class DbLocal extends SQLiteOpenHelper {
 
 	// 获取键值对
 	public String kvGet (String k) {
+		return mkvGet(k, "Bkv");
+	}
+
+	// 设置键值对
+	public void kvSet (String k, String v) {
+		mkvSet(k, v, "Bkv");
+	}
+
+	// 删除键值对
+	public void kvDel (String k) {
+		mkvDel(k, "Bkv");
+	}
+
+	// 获取任意表的键值对
+	public String mkvGet (String k, String tnam) {
 		String r = null;
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(meg(
 				EmLocalSql.KvGet.toString(),
-				k
+				k, tnam
 		), null);
 
 		if (c.moveToNext()) {
@@ -79,27 +94,27 @@ public class DbLocal extends SQLiteOpenHelper {
 		return r;
 	}
 
-	// 设置键值对
-	public void kvSet (String k, String v) {
+	// 设置任意表的键值对
+	public void mkvSet (String k, String v, String tnam) {
 		SQLiteDatabase db = this.getReadableDatabase();
 		Cursor c = db.rawQuery(meg(
 				EmLocalSql.KvGet.toString(),
-				k
+				k, tnam
 		), null);
 		boolean b = c.moveToNext();
 		c.close();
 		db.close();
 
 		if (b) {
-			exe(EmLocalSql.KvSet, k, v);
+			exe(EmLocalSql.KvSet, k, v, tnam);
 		} else {
-			exe(EmLocalSql.KvAdd, k, v);
+			exe(EmLocalSql.KvAdd, k, v, tnam);
 		}
 	}
 
-	// 获取键值对
-	public void kvDel (String k) {
-		exe(EmLocalSql.KvDel, k);
+	// 删除任意表的键值对
+	public void mkvDel (String k, String tnam) {
+		exe(EmLocalSql.KvDel, k, tnam);
 	}
 
 }

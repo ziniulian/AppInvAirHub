@@ -19,6 +19,7 @@ import tk.ziniulian.job.rfid.EmPushMod;
 import tk.ziniulian.job.rfid.InfTagListener;
 import tk.ziniulian.job.rfid.tag.T6C;
 import tk.ziniulian.job.rfid.xc2910.Rd;
+import tk.ziniulian.util.Str;
 import tk.ziniulian.util.dao.DbLocal;
 import tk.ziniulian.util.dao.WebSrv;
 
@@ -47,6 +48,7 @@ public class Web {
 
 	// 读写器设置
 	public void initRd () {
+		rfd.setHex(true);
 		rfd.setPm(EmPushMod.Catch);
 		rfd.setTagListenter(new InfTagListener() {
 			@Override
@@ -86,6 +88,13 @@ public class Web {
 	public void initDb() {
 		ldao = new DbLocal(ma);
 		initWs();
+
+		// 数据字典测试数据
+		ldao.mkvSet("JSJ", "计算机", "NamKv");
+		ldao.mkvSet("LDC", "背景光亮度计", "NamKv");
+		ldao.mkvSet("0100000001", "监视专业-X系统-测试", "ClsKv");
+		ldao.mkvSet("TX00000000", "通信专业-测试", "ClsKv");
+		ldao.mkvSet("QX00000000", "气象专业-测试", "ClsKv");
 	}
 
 	// WebService初始化
@@ -267,4 +276,22 @@ public class Web {
 		}
 		sp.play(typ, 1, 1, 0, 0, 1);
 	}
+
+/*------------------- 业务 ---------------------*/
+	@JavascriptInterface
+	public String parseEpc (String epc) {
+		String r = Str.Hexstr2Dat(epc.substring(0, 12));
+		return r + epc.substring(12, 32);
+	}
+
+/*------------------- 查询 ---------------------*/
+	@JavascriptInterface
+	public String parseNam (String nam) {
+		return ldao.mkvGet(nam, "NamKv");
+	}
+	@JavascriptInterface
+	public String parseCls (String cls) {
+		return ldao.mkvGet(cls, "ClsKv");
+	}
+
 }

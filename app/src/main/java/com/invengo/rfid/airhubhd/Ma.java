@@ -69,6 +69,7 @@ public class Ma extends Activity {
 					EmUrl e = getCurUi();
 					if (e != null) {
 						switch (getCurUi()) {
+							case Qry:
 							case WhIn:
 								w.rfidScan();
 								break;

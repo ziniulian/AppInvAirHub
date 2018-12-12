@@ -9,9 +9,10 @@ function init() {
 }
 
 rfid.hdScan = function (arr) {
-	var o, m = 0;
+	var o, e, m = 0;
 	for (var i = 0; i < arr.length; i ++) {
-		o = dat.ts[arr[i].epc];
+		e = mn.parseEpc(arr[i].epc);
+		o = dat.ts[e];
 		if (o) {
 			if (m === 0) {
 				m = 2;
@@ -66,9 +67,6 @@ dat = {
 				o.whStat = 0;	// 未入库
 				noListDom.appendChild(r);
 			}
-
-			d = document.createElement("td");
-			r.appendChild(d);
 
 			b = document.createElement("table");
 			b.className = "wh_tb sfs";
