@@ -71,6 +71,7 @@ public class Ma extends Activity {
 						switch (getCurUi()) {
 							case Qry:
 							case WhIn:
+							case WhOut:
 								w.rfidScan();
 								break;
 						}

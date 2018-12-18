@@ -103,7 +103,7 @@
 	padding-top: 0.3rem;
 }
 .hom_memo {
-	position: absolute;
+	position: fixed;
 	bottom: 1rem;
 	width: 100%;
 }
@@ -292,4 +292,16 @@
     font-style: italic;
     text-align: right;
     color: #666;
+}
+
+/*---------------------- 出库 ----------------------*/
+.whout_btn {
+    display: inline-block;
+    padding: 0.2rem 1rem;
+    margin: 0 0.5rem;
+    font-weight: bold;
+    color: blue;
+}
+.whout_btn_scd {
+    color: red;
 }

@@ -1,10 +1,11 @@
 function init() {
 	var o = tools.getUrlReq();
+	tools.memo.bind(memoDom);
 	if (o.rid) {
 		dat.rid = o.rid;
 		namDom.innerHTML = o.nam;
 		dat.user = mn.getUser();
-		// dat.getDat();
+		dat.getDat();
 	}
 }
 
@@ -19,9 +20,19 @@ rfid.hdScan = function (arr) {
 			}
 			o.whTim += arr[i].tim;
 			o.whTimDoe.innerHTML = o.whTim;
-			if (o.whStat === 0) {
-				if (dat.sav(o)) {
-					m = 1;
+		} else if (!dat.rdys[e]) {
+			if (dat.oknum < dat.count) {
+				o = dat.match(e, {});
+				if (o) {
+					if (o.match.ok === 4) {
+						if (dat.sav(o)) {
+							m = 1;
+						}
+					} else {
+						dat.rdy(o);
+						m = 1;
+						mn.music(0);
+					}
 				}
 			}
 		}
@@ -34,76 +45,79 @@ rfid.hdScan = function (arr) {
 dat = {
 	rid: null,	// 入库单号
 	count: 0,	// 总数
-	oknum: 0,	// 已入库数
-	ts: {},		// 设备明细
+	oknum: 0,	// 已出库数
+	rts: [],	// 预出库设备明细
+	ts: {},		// 实际出库设备明细
+	rdys: {},	// 临时占用的 EPC
 	user: null,	// 用户id
 
 	getDat: function () {
-		var o = mn.qryWs("getdevice_rkjson", "{\"infoid\":\"" + dat.rid + "\"}");
-		if (o.ok && o.STORAGE_DEVICE_INFO.length) {
-			dat.hdDat(o.STORAGE_DEVICE_INFO);
+		var o = mn.qryWs("ckspwedivice_json", "{\"outWeInfoid\":\"" + dat.rid + "\"}");
+		if (o.ok && o.STORAGE_DEVICE_OUT.length) {
+			dat.hdDatR(o.STORAGE_DEVICE_OUT);
+			dat.hdDat(o["STORAGE_DEVICE_OUT：ISCK"]);
 		}
 	},
 
-	hdDat: function (a) {
-		var i, o, b, r, d;
-		dat.count = a.length;
-		numDom.innerHTML = a.length;
+	hdDatR: function (a) {
+		var i, j, o, t, n, b, d;
 		for (i = 0; i < a.length; i ++) {
-			o = a[i];
-// mn.log(o.dbm);
-			dat.ts[o.dbm] = o;
-			o.whId = i;
-			o.whTim = 0;
+			t = a[i];
+			n = t.countno - 0;
+			for (j = 0; j < n; j ++) {
+				o = {
+					nam: t.sbidname,
+					namCod: t.ename,
+					cls: t.zyidname,
+					clsCod: t.zyid,
+					gg: t.ggidname,
+					pp: t.supplieridname,
+					whId: dat.rts.length,
+					whTim: 0,
+					match: false,	// 匹配信息
+					/*
+					{
+						dbm,clsCod,cls,pp,sn,ok		// ok=4,表示完全匹配； 其它,表示部分匹配
+					}
+					*/
+					whTbDoe: document.createElement("tbody"),
+					whDoe: document.createElement("tr")
+				};
+				b = document.createElement("table");
+				b.className = "wh_tb sfs";
 
-			// 生成 DOM
-			r = document.createElement("tr");
-			o.whDoe = r;
-			if (o.isrk === "001") {		// TODO ： 目前001代表已入库，但是否为001还有待确认
-				o.whStat = 1;	// 已入库
-				dat.oknum ++;
-				okListDom.appendChild(r);
-			} else {
-				o.whStat = 0;	// 未入库
-				noListDom.appendChild(r);
+				// 数据内容
+				o.whImgDoe = dat.crtDom(o.whTbDoe, 0, "", o.nam);
+				dat.crtDom(o.whTbDoe, "型号", ":", o.gg);
+				o.whPpDoe = dat.crtDom(o.whTbDoe, "品牌", ":", o.pp);
+				o.whClsDoe = dat.crtDom(o.whTbDoe, "分类", ":", o.cls);
+
+				// 次数统计
+				o.whTimDoe = document.createElement("div");
+				o.whTimDoe.className = "wh_tb_t sfs";
+
+				b.appendChild(o.whTbDoe);
+				d = document.createElement("td");
+				d.appendChild(b);
+				d.appendChild(o.whTimDoe);
+				o.whDoe.appendChild(d);
+
+				noListDom.appendChild(o.whDoe);
+				dat.rts.push(o);
 			}
-
-			b = document.createElement("table");
-			b.className = "wh_tb sfs";
-			d = document.createElement("tbody");
-
-			// 数据内容
-			o.whImgDoe = dat.crtDom(d, o.whStat, "", o.sbidname);
-			if (o.serialNumber) {
-				dat.crtDom(d, "S/N", ":", o.serialNumber);
-			}
-			dat.crtDom(d, "型号", ":", o.ggidname);
-			dat.crtDom(d, "品牌", ":", o.supplieridname);
-			dat.crtDom(d, "分类", ":", o.zyidname);
-
-			// 次数统计
-			o.whTimDoe = document.createElement("div");
-			o.whTimDoe.className = "wh_tb_t sfs";
-			d.appendChild(o.whTimDoe);
-
-			b.appendChild(d);
-			d = document.createElement("td");
-			d.appendChild(b);
-			r.appendChild(d);
 		}
-		dat.flushNum();
+		dat.count = dat.rts.length;
+		numDom.innerHTML = dat.rts.length;
 	},
 
 	crtDom: function (b, k, g, v) {
 		var r = document.createElement("tr");
 		var d = document.createElement("td");
-		var rr = d;
+		var rr = false;
 		switch (k) {
 			case 0:
 				d.className = "wh_out_tb_img wh_out_tb_img_no";
-				break;
-			case 1:
-				d.className = "wh_out_tb_img wh_out_tb_img_ok";
+				rr = d;
 				break;
 			default:
 				d.className = "wh_tb_k";
@@ -119,35 +133,176 @@ dat = {
 
 		d = document.createElement("td");
 		d.innerHTML = v;
+		if (!rr) {
+			rr = d;
+		}
 		r.appendChild(d);
 		b.appendChild(r);
 
 		return rr;
 	},
 
-	sav: function (o) {
-		var r = false;
-		var s = mn.qryWs("rkdevicesave_json",
-			"{\"dbm\":\"" + o.dbm +
-			"\",\"hjh\":\"" + "d001-01" +	// TODO: 库位为空时接口有问题，不能返回 true
-			"\",\"sysuerid\":\"" + dat.user +
-		"\"}");
-		if (s.ok) {
-			// 保存成功
-			o.whStat = 1;
-			noListDom.removeChild(o.whDoe);
-			o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_ok";
-			okListDom.appendChild(o.whDoe);
-			mn.music(1);
-			dat.flushNum();
-			r = true;
+	hdDat: function (a) {
+		var i, o;
+		for (i = 0; i < a.length; i ++) {
+			o = dat.match(a[i].dbm, {
+				cls: a[i].zyidname,		// TODO:  数据字典未完成前，临时使用该分类名。
+				gg: a[i].ggidname,
+				sn: "",		// TODO:  此字段待接口完善后，记录序列号信息
+				pp: a[i].supplieridname
+			});
+			if (o) {
+				dat.flushSav(o);
+			} else {
+				// mn.log("严重BUG ： 出了一个与出库单完全不一致的东西！！" + a[i].dbm);
+			}
 		}
+	},
 
+	match: function (epc, m) {
+		var i, o, t, k, r = null;
+		t = mn.parseEpcObj(epc);
+		if (t && t.typCod === "S") {
+			m.dbm = epc;
+			m.ok = 0;	// 1:名称匹配、2:名称+品牌匹配、3:名称+分类匹配、4:完全匹配
+			m.clsCod = epc.substring(4, 14);
+			for (i = 0; i < dat.rts.length; i ++) {
+				o = dat.rts[i];
+				if (!o.match && o.namCod === t.namCod) {
+					if (!m.gg) {
+						k = mn.qryWs("divicefindbydbmandsn", "{\"dbm\":\"" + epc +"\"}");
+						if (k.ok) {
+							k = k["DEVICE"][0];
+							m.gg = k.ggxhname;
+							m.sn = k.serialNumber;
+							m.pp = k.brandname;
+							m.cls = k.zyidname;		// TODO:  数据字典未完成前，临时使用该分类名。
+						}
+					}
+					// m.cls = t.cls;	// TODO:  待数据字典功能完善后，使用数据字典解析出来的分类名。
+					if (m.gg === o.gg) {
+						if (m.ok < 1) {
+							m.ok = 1;
+							r = o;
+						}
+						if (m.clsCod === o.clsCod) {
+							if (m.pp === o.pp) {
+								// 完全匹配
+								m.ok = 4;
+								r = o;
+								break;
+							} else if (m.ok < 3) {
+								m.ok = 3;
+								r = o;
+							}
+						} else if (m.ok < 2 && m.pp === o.pp) {
+							m.ok = 2;
+							r = o;
+						}
+					}
+				}
+			}
+			if (m.ok) {
+				if (m.sn) {
+					m.snDoe = dat.crtDom(r.whTbDoe, "S/N", ":", m.sn);
+				}
+				r.match = m;
+				switch (m.ok) {
+					case 2:
+						r.whClsDoe.innerHTML += "<br/><span>" + m.cls + "</span>";
+						break;
+					case 1:
+						r.whClsDoe.innerHTML += "<br/><span>" + m.cls + "</span>";
+					case 3:
+						r.whPpDoe.innerHTML += "<br/><span>" + m.pp + "</span>";
+						break;
+				}
+			}
+		}
 		return r;
 	},
 
-	flushNum: function () {
+	flushSav: function (o) {
+		o.whDoe.parentNode.removeChild(o.whDoe);
+		o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_ok";
+		okListDom.appendChild(o.whDoe);
+
+		dat.ts[o.match.dbm] = o;
+		dat.oknum ++;
 		okNumDom.innerHTML = dat.oknum;
+	},
+
+	sav: function (o) {
+		var r = false;
+		var s = mn.qryWs("ckspwedivicecksmsave",
+			"{\"outWeInfoid\":\"" + dat.rid +
+			"\",\"dbm\":\"" + o.match.dbm +
+			"\",\"userid\":\"" + dat.user +
+		"\"}");
+		if (s.ok) {
+			// 保存成功
+			dat.flushSav(o);
+			mn.music(1);
+			r = true;
+		} else {
+			dat.cancle(o);
+			tools.memo.show(s.error);
+		}
+		return r;
+	},
+
+	cancle: function (o) {
+		if (o.match.snDoe) {
+			o.whTbDoe.removeChild(o.match.snDoe.parentNode);
+		}
+		o.whClsDoe.innerHTML = o.cls;
+		o.whPpDoe.innerHTML = o.pp;
+		if (o.whImgDoe.className !== "wh_out_tb_img wh_out_tb_img_no") {
+			o.whDoe.parentNode.removeChild(o.whDoe);
+			o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_no";
+			if (o.match.btnDoe) {
+				o.match.btnDoe.parentNode.removeChild(o.match.btnDoe);
+			}
+			noListDom.appendChild(o.whDoe);
+		}
+		delete dat.rdys[o.match.dbm];
+		o.match = false;
+	},
+
+	rdy: function (o) {
+		var d;
+		dat.rdys[o.match.dbm] = o;
+		o.whDoe.parentNode.removeChild(o.whDoe);
+		o.match.btnDoe = document.createElement("div");
+		o.match.btnDoe.className = "midOut";
+
+		d = document.createElement("div");
+		d.className = "whout_btn mfs";
+		d.innerHTML = "保存";
+		d.ontouchstart = dat.btnTuch;
+		d.ontouchend = function () {
+			this.className = "whout_btn mfs";
+			dat.sav(o);
+		};
+		o.match.btnDoe.appendChild(d);
+
+		d = document.createElement("div");
+		d.className = "whout_btn mfs";
+		d.innerHTML = "取消";
+		d.ontouchstart = dat.btnTuch;
+		d.ontouchend = function () {
+			this.className = "whout_btn mfs";
+			dat.cancle(o);
+		};
+		o.match.btnDoe.appendChild(d);
+
+		o.whTimDoe.parentNode.appendChild(o.match.btnDoe);
+		o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_rdy";
+		rdyListDom.appendChild(o.whDoe);
+	},
+
+	btnTuch: function () {
+		this.className = "whout_btn mfs whout_btn_scd";
 	},
 
 	back: function () {

@@ -11,10 +11,12 @@
 		<script src="../js/main.js"></script>
 		<script src="../js/tools.js"></script>
 		<script src="../js/rfid.js"></script>
-		<!-- <script src="../js/whIn.js"></script> -->
 		<script src="../js/whOut.js"></script>
 
 		<style type="text/css">
+			.wh_tb td span{
+				color: red;
+			}
 		</style>
 	</head>
 
@@ -55,10 +57,19 @@
 									</tr>
 								</table>
 								<div class="wh_tb_t sfs">1000</div>
+								<div class="midOut">
+									<div class="whout_btn mfs"
+										ontouchstart = "this.className = 'whout_btn mfs whout_btn_scd';"
+										ontouchend = "this.className = 'whout_btn mfs';">保存</div>
+									<div class="whout_btn mfs"
+										ontouchstart = "this.className = 'whout_btn mfs whout_btn_scd';"
+										ontouchend = "this.className = 'whout_btn mfs';">取消</div>
+								</div>
 							</td>
 						</tr> -->
 					</tbody>
 				</table>
+				<div id="memoDom" class="hom_memo memo sfs midOut"></div>
 			</div>
 		</div>
 	</body>
