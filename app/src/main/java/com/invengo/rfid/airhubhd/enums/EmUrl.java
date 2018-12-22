@@ -29,6 +29,8 @@ public enum EmUrl {
 	WhIn("file:///android_asset/web/s01/whIn.html"),
 	WhOutList("file:///android_asset/web/s01/whOutList.html"),
 	WhOut("file:///android_asset/web/s01/whOut.html"),
+	Pan("file:///android_asset/web/s01/pan.html"),
+	Pann("file:///android_asset/web/s01/pan.html"),
 	Exit("file:///android_asset/web/s01/home.html"),
 	Back("javascript: dat.back();"),
 	Err("file:///android_asset/web/s01/err.html");

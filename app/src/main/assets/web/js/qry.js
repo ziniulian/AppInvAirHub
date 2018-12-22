@@ -46,6 +46,7 @@ dat = {
 			dat.crtDom(d, "数量", ":", o.count);
 			dat.crtDom(d, "箱号", ":", o.cod + " , 共 " + o.totle + " 箱");
 		}
+		dat.crtDom(d, "序号", ":", o.dbm.substring(14, 26));
 
 		// 次数统计
 		o.whTimDoe = document.createElement("div");

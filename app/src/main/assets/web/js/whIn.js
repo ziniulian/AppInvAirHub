@@ -1,5 +1,6 @@
 function init() {
 	var o = tools.getUrlReq();
+	tools.memo.bind(memoDom);
 	if (o.rid) {
 		dat.rid = o.rid;
 		namDom.innerHTML = o.nam;
@@ -59,7 +60,7 @@ dat = {
 			// 生成 DOM
 			r = document.createElement("tr");
 			o.whDoe = r;
-			if (o.isrk === "001") {		// TODO ： 目前001代表已入库，但是否为001还有待确认
+			if (o.isrk === "002") {
 				o.whStat = 1;	// 已入库
 				dat.oknum ++;
 				okListDom.appendChild(r);
@@ -80,15 +81,16 @@ dat = {
 			dat.crtDom(d, "型号", ":", o.ggidname);
 			dat.crtDom(d, "品牌", ":", o.supplieridname);
 			dat.crtDom(d, "分类", ":", o.zyidname);
+			dat.crtDom(d, "序号", ":", o.dbm.substring(14, 26));
 
 			// 次数统计
 			o.whTimDoe = document.createElement("div");
 			o.whTimDoe.className = "wh_tb_t sfs";
-			d.appendChild(o.whTimDoe);
 
 			b.appendChild(d);
 			d = document.createElement("td");
 			d.appendChild(b);
+			d.appendChild(o.whTimDoe);
 			r.appendChild(d);
 		}
 		dat.flushNum();
@@ -142,6 +144,8 @@ dat = {
 			mn.music(1);
 			r = true;
 			dat.flushNum();
+		} else {
+			tools.memo.show(s.error);
 		}
 
 		return r;

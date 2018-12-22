@@ -72,6 +72,7 @@ public class Ma extends Activity {
 							case Qry:
 							case WhIn:
 							case WhOut:
+							case Pan:
 								w.rfidScan();
 								break;
 						}

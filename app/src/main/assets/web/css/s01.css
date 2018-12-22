@@ -265,6 +265,10 @@
 .wh_out_tb_img_no {
     background-image: url(../img/stplan.png);
 }
+/* 错误 */
+.wh_out_tb_img_err {
+    background-image: url(../img/stno.png);
+}
 .wh_tb {
     width: 100%;
     border-spacing: 0 0.5rem;

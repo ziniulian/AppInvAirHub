@@ -120,10 +120,10 @@ public class WebSrv {
 //				"\"url\":\"http://192.169.0.35:8888/room/DataWebServicePort\"," +
 //				"\"npc\":\"http://sys.action.web.cw.com/\"" +
 //		"}"));
-		System.out.println(ws.qry("call",
-				new String[] {"meth", "parm"},
-				new String[] {"hello", null}
-		));
+//		System.out.println(ws.qry("call",
+//				new String[] {"meth", "parm"},
+//				new String[] {"hello", null}
+//		));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"hello\"," +
 //				"\"parm\":null" +
@@ -157,12 +157,12 @@ public class WebSrv {
 //				"\"meth\":\"getcksqlist_json\"," +
 //				"\"parm\":null" +
 //		"}"));
-//		System.out.println(ws.jsonQry("call", "{" +
-//				"\"meth\":\"ckspwedivice_json\"," +
-//				"\"parm\":" + gson.toJson("{" +
-//					"\"outWeInfoid\":\"ff80808166ce68fb0166ce6fe0ff000c\"" +
-//				"}") +
-//		"}"));
+		System.out.println(ws.jsonQry("call", "{" +
+				"\"meth\":\"ckspwedivice_json\"," +
+				"\"parm\":" + gson.toJson("{" +
+					"\"outWeInfoid\":\"402980a367c90e860167c923700d0025\"" +
+				"}") +
+		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"divicefindbydbmandsn\"," +
 //				"\"parm\":" + gson.toJson("{" +

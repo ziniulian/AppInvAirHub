@@ -148,7 +148,7 @@ dat = {
 			o = dat.match(a[i].dbm, {
 				cls: a[i].zyidname,		// TODO:  数据字典未完成前，临时使用该分类名。
 				gg: a[i].ggidname,
-				sn: "",		// TODO:  此字段待接口完善后，记录序列号信息
+				sn: a[i].serialnumber,
 				pp: a[i].supplieridname
 			});
 			if (o) {
@@ -206,6 +206,7 @@ dat = {
 				if (m.sn) {
 					m.snDoe = dat.crtDom(r.whTbDoe, "S/N", ":", m.sn);
 				}
+				m.xhDoe = dat.crtDom(r.whTbDoe, "序号", ":", m.dbm.substring(14, 26));
 				r.match = m;
 				switch (m.ok) {
 					case 2:
@@ -227,6 +228,11 @@ dat = {
 		o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_ok";
 		okListDom.appendChild(o.whDoe);
 
+		if (o.match.btnDoe) {
+			o.match.btnDoe.parentNode.removeChild(o.match.btnDoe);
+			delete o.match.btnDoe;
+		}
+
 		dat.ts[o.match.dbm] = o;
 		dat.oknum ++;
 		okNumDom.innerHTML = dat.oknum;
@@ -245,7 +251,7 @@ dat = {
 			mn.music(1);
 			r = true;
 		} else {
-			dat.cancle(o);
+			// dat.cancle(o);
 			tools.memo.show(s.error);
 		}
 		return r;
@@ -255,6 +261,9 @@ dat = {
 		if (o.match.snDoe) {
 			o.whTbDoe.removeChild(o.match.snDoe.parentNode);
 		}
+		if (o.match.xhDoe) {
+			o.whTbDoe.removeChild(o.match.xhDoe.parentNode);
+		}
 		o.whClsDoe.innerHTML = o.cls;
 		o.whPpDoe.innerHTML = o.pp;
 		if (o.whImgDoe.className !== "wh_out_tb_img wh_out_tb_img_no") {
@@ -262,6 +271,7 @@ dat = {
 			o.whImgDoe.className = "wh_out_tb_img wh_out_tb_img_no";
 			if (o.match.btnDoe) {
 				o.match.btnDoe.parentNode.removeChild(o.match.btnDoe);
+				delete o.match.btnDoe;
 			}
 			noListDom.appendChild(o.whDoe);
 		}

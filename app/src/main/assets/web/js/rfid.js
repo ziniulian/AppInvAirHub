@@ -37,5 +37,10 @@ rfid = {
 	},
 	hdWrt: function (ok) {
 		// console.log(ok);
+	},
+
+	// 功率
+	setRate: function (r) {
+		rfdo.setRate(r);
 	}
 };

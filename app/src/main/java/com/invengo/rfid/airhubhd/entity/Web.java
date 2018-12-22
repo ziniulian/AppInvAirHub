@@ -109,6 +109,7 @@ public class Web {
 			ldao.kvSet("urlIp", ip);
 			ldao.kvSet("urlPort", port);
 			ldao.kvSet("npc", npc);
+			ldao.kvSet("rate", "30");
 		}
 		ws = new WebSrv(megUrl(ip, port), npc);
 	}
@@ -188,6 +189,11 @@ public class Web {
 	@JavascriptInterface
 	public boolean setBank(String bankNam) {
 		return rfd.setBank(bankNam);
+	}
+
+	@JavascriptInterface
+	public void setRate(String r) {
+		rfd.rate(r);
 	}
 
 /*------------------- 二维码 ---------------------*/

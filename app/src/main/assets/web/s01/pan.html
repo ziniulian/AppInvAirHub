@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>WhIn</title>
+		<title>Pann</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 
@@ -11,7 +11,7 @@
 		<script src="../js/main.js"></script>
 		<script src="../js/tools.js"></script>
 		<script src="../js/rfid.js"></script>
-		<script src="../js/whIn.js"></script>
+		<script src="../js/pan.js"></script>
 
 		<style type="text/css">
 		</style>
@@ -20,18 +20,16 @@
 	<body>
 		<div id="boso" class="boso Lc_noadr hom_bg">
 			<div class="hom_top clr_bar bfs">
-				入库.<span id="namDom"></span>
+				盘点
 			</div>
 			<div class="wh_bot midOut">
 				<div class="midTop"></div><!--
-				--><div class="midSub mfs">
-					已入库：<span id="okNumDom">0</span> ，
-					总数：<span id="numDom">0</span>
+				--><div id="isDom" class="midSub mfs">
+					数量：<span id="okNumDom">0</span>
 				</div>
 			</div>
 			<div class="wh_body">
 				<table class="wh_out_tb">
-					<tbody id="noListDom"></tbody>
 					<tbody id="okListDom"></tbody>
 				</table>
 			</div>
