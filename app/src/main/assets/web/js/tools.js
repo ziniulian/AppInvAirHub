@@ -59,6 +59,36 @@ tools = {
 			}
 		}
 		return theRequest;
+	},
+
+	// 固定宽度的字符
+	strFormt: function (s, width, subs) {
+		var r = s;
+		var n = s.length;
+		if (width > n) {
+			n = width - n;
+			for (var i = 0; i < n; i++) {
+				r = subs + r;
+			}
+		}
+		return r;
+	},
+
+	// 获取当前时间的字符串
+	getTimStr: function () {
+		var date = new Date();
+		var s = date.getFullYear();
+		s += "-";
+		s += tools.strFormt((date.getMonth() + 1) + "", 2, "0");
+		s += "-";
+		s += tools.strFormt(date.getDate() + "", 2, "0");
+		s += " ";
+		s += tools.strFormt(date.getHours() + "", 2, "0");
+		s += ":";
+		s += tools.strFormt(date.getMinutes() + "", 2, "0");
+		s += ":";
+		s += tools.strFormt(date.getSeconds() + "", 2, "0");
+		return s;
 	}
 
 };

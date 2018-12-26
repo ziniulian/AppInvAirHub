@@ -37,6 +37,12 @@ mn = {
 		var r = zy + szy + xt + sxt;
 		return rfdo.parseCls(r) || r;
 	},
+	setNam: function (k, v) {
+		rfdo.setNam(k, v);
+	},
+	setCls: function (k, v) {
+		rfdo.setCls(k, v);
+	},
 
 /****************** 业务 ******************/
 	parseEpc: function (epc) {

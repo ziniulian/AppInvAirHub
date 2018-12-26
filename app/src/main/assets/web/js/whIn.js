@@ -131,8 +131,8 @@ dat = {
 		var r = false;
 		var s = mn.qryWs("rkdevicesave_json",
 			"{\"dbm\":\"" + o.dbm +
-			"\",\"hjh\":\"" + "" +	// TODO: 库位为空时接口有问题，不能返回 true
-			"\",\"userid\":\"" + dat.user +
+			"\",\"hjh\":\"" + "" +
+			"\",\"userid\":\"" + dat.user.rid +
 		"\"}");
 		if (s.ok) {
 			// 保存成功

@@ -110,6 +110,7 @@ public class Web {
 			ldao.kvSet("urlPort", port);
 			ldao.kvSet("npc", npc);
 			ldao.kvSet("rate", "30");
+			ldao.kvSet("synTim", "2018-11-11 11:11:11");
 		}
 		ws = new WebSrv(megUrl(ip, port), npc);
 	}
@@ -290,11 +291,22 @@ public class Web {
 		return r + epc.substring(12, 32);
 	}
 
+	@JavascriptInterface
+	public void setNam (String k, String v) {
+		ldao.mkvSet(k, v, "NamKv");
+	}
+
+	@JavascriptInterface
+	public void setCls (String k, String v) {
+		ldao.mkvSet(k, v, "ClsKv");
+	}
+
 /*------------------- 查询 ---------------------*/
 	@JavascriptInterface
 	public String parseNam (String nam) {
 		return ldao.mkvGet(nam, "NamKv");
 	}
+
 	@JavascriptInterface
 	public String parseCls (String cls) {
 		return ldao.mkvGet(cls, "ClsKv");

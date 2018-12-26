@@ -61,9 +61,33 @@ dat = {
 
 	// 同步数据字典
 	syn: function () {
-		// 保存IP
-		// 测试网络
-		// 同步数据字典
+		var on, oc, t, nt, i, o;
+		if (dat.sav()) {
+			t = mn.kvGet("synTim");
+			nt = tools.getTimStr();
+			on = mn.qryWs("getdeviceinfolistbycjtime", "{\"cjtime\":\"" + t + "\"}");	// 设备
+			if (on.ok) {
+				oc = mn.qryWs("getsysspecialtylistbycjtime", "{\"cjtime\":\"" + t + "\"}");	// 专业
+				if (oc.ok) {
+					// 设备
+					o = on.DEVICEINFO;
+					for (i = 0; i < o.length; i ++) {
+						mn.setNam(o[i].ename, o[i].dname);
+					}
+					// 专业
+					o = oc.SYSSPECIALTY;
+					for (i = 0; i < o.length; i ++) {
+						mn.setCls(o[i].nosname, o[i].zyname);
+					}
+					mn.kvSet("synTim", nt);
+					tools.memo.show("数据同步完成");
+				} else {
+					tools.memo.show(oc.err);
+				}
+			} else {
+				tools.memo.show(on.err);
+			}
+		}
 	},
 
 	back: function () {

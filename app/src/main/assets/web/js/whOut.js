@@ -146,7 +146,7 @@ dat = {
 		var i, o;
 		for (i = 0; i < a.length; i ++) {
 			o = dat.match(a[i].dbm, {
-				cls: a[i].zyidname,		// TODO:  数据字典未完成前，临时使用该分类名。
+				cls: a[i].zyidname,
 				gg: a[i].ggidname,
 				sn: a[i].serialnumber,
 				pp: a[i].supplieridname
@@ -176,10 +176,9 @@ dat = {
 							m.gg = k.ggxhname;
 							m.sn = k.serialNumber;
 							m.pp = k.brandname;
-							m.cls = k.zyidname;		// TODO:  数据字典未完成前，临时使用该分类名。
+							m.cls = k.zyidname;
 						}
 					}
-					// m.cls = t.cls;	// TODO:  待数据字典功能完善后，使用数据字典解析出来的分类名。
 					if (m.gg === o.gg) {
 						if (m.ok < 1) {
 							m.ok = 1;
@@ -243,7 +242,7 @@ dat = {
 		var s = mn.qryWs("ckspwedivicecksmsave",
 			"{\"outWeInfoid\":\"" + dat.rid +
 			"\",\"dbm\":\"" + o.match.dbm +
-			"\",\"userid\":\"" + dat.user +
+			"\",\"userid\":\"" + dat.user.rid +
 		"\"}");
 		if (s.ok) {
 			// 保存成功

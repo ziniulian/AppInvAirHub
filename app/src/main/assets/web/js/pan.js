@@ -72,10 +72,10 @@ dat = {
 				if (s.ok && s["DEVICE"]) {	// TODO: 接口信息需要包含设备详情，而不该重复查询，需修改。
 					s = s["DEVICE"][0];
 					if (s) {
-						if (s.sbname) {		// TODO: 待数据字典完善后，无需使用详情的信息
+						if (s.sbname) {
 							o.nam = s.sbname;
 						}
-						if (s.zyidname) {	// TODO: 待数据字典完善后，无需使用详情的信息
+						if (s.zyidname) {
 							o.cls = s.zyidname;
 						}
 						if (s.ggxhname) {
