@@ -237,6 +237,7 @@ public class Web {
 		if (s == null) {
 			s = "{\"ok\": false, \"error\": \"网络故障！\"}";
 		}
+//Log.i("----- WS - " + method + " - " + parm + " -----", s);
 		return s;
 	}
 

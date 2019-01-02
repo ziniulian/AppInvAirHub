@@ -14,7 +14,7 @@
 	margin-top: 0.7rem;
 }
 
-/*---------------------- Transition ----------------------*/
+/*---------------------- Transition 开机画面 ----------------------*/
 .trstn_bg {
     background-repeat: no-repeat;
     background-position: center center;
@@ -22,7 +22,7 @@
     background-image: url(../img/trstn_bg.jpg);
 }
 
-/*---------------------- SignIn ----------------------*/
+/*---------------------- SignIn 登录 ----------------------*/
 .sign_in_bg {
     background-repeat: no-repeat;
     background-position: center bottom;
@@ -80,7 +80,7 @@
     background-image: url(../img/settingH.png);
 }
 
-/*---------------------- Home ----------------------*/
+/*---------------------- Home 主页 ----------------------*/
 .hom_bg {
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -174,7 +174,7 @@
 	background-image: url(../img/signOutH.png);
 }
 
-/*---------------------- 关于 ----------------------*/
+/*---------------------- About 关于 ----------------------*/
 .abt_bg {
 	background-repeat: no-repeat;
 	background-position: center center;
@@ -187,7 +187,7 @@
 	left: 1rem;
 }
 
-/*---------------------- 设置 ----------------------*/
+/*---------------------- Setting 设置 ----------------------*/
 .set_txt_out {
     margin-top: 1rem;
 }
@@ -201,7 +201,7 @@
 	width: 55%;
 }
 
-/*---------------------- 待入库清单 ----------------------*/
+/*---------------------- WhInList 待入库清单 ----------------------*/
 .wh_list {
     display: block;
     margin: 0.5rem;
@@ -221,11 +221,12 @@
     color: #666;
 }
 
-/*---------------------- 入库 ----------------------*/
+/*---------------------- WhIn 入库 ----------------------*/
 .wh_body {
 	height: 80%;
 	overflow-x: hidden;
 	overflow-y: auto;
+    -webkit-overflow-scrolling: auto;
 }
 .wh_bot {
 	height: 10%;
@@ -298,7 +299,7 @@
     color: #666;
 }
 
-/*---------------------- 出库 ----------------------*/
+/*---------------------- WhOut 出库 ----------------------*/
 .whout_btn {
     display: inline-block;
     padding: 0.2rem 1rem;
@@ -308,4 +309,20 @@
 }
 .whout_btn_scd {
     color: red;
+}
+
+/*---------------------- Qry 查询 ----------------------*/
+.qry_a {
+    color: #111;
+}
+
+/*---------------------- Info 设备详情 ----------------------*/
+.info_tb {
+    width: 90%;
+    margin: 1rem auto;
+    border-spacing: 0 0.5rem;
+    background-color: rgba(222, 240, 255, 0.8);
+}
+.info_tb td {
+    word-break:break-all;
 }

@@ -29,6 +29,7 @@ rfid.hdScan = function (arr) {
 			if (m === 0) {
 				m = 2;
 			}
+			dat.lastOne = o;
 			o.whTim += arr[i].tim;
 			o.whTimDoe.innerHTML = o.whTim;
 		} else {
@@ -44,15 +45,21 @@ rfid.hdScan = function (arr) {
 					mn.music(0);
 				}
 				m = 1;
+				dat.lastOne = o;
 			}
 		}
 	}
 	if (m === 2) {
 		mn.music(2);
 	}
+	if (dat.lastOne && rfid.tid === 0) {
+		tools.topDoe(outDoe, dat.lastOne.whDoe);
+		dat.lastOne = null;
+	}
 };
 
 dat = {
+	lastOne: null,
 	rid: null,	// 入库单号
 	user: null,	// 用户id
 	oknum: 0,	// 已入库数

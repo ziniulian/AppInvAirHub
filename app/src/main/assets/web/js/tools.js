@@ -89,6 +89,15 @@ tools = {
 		s += ":";
 		s += tools.strFormt(date.getSeconds() + "", 2, "0");
 		return s;
+	},
+
+	// DOM元素位置调整
+	topDoe: function (out, doe) {
+		if (doe) {
+			out.scrollTop = doe.offsetTop;
+		} else {
+			out.scrollTop = 0;
+		}
 	}
 
 };

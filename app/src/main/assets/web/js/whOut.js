@@ -18,6 +18,9 @@ rfid.hdScan = function (arr) {
 			if (m === 0) {
 				m = 2;
 			}
+			if (dat.lastOne !== 1) {
+				dat.lastOne = o;
+			}
 			o.whTim += arr[i].tim;
 			o.whTimDoe.innerHTML = o.whTim;
 		} else if (!dat.rdys[e]) {
@@ -28,10 +31,12 @@ rfid.hdScan = function (arr) {
 						if (dat.sav(o)) {
 							m = 1;
 						}
+						dat.lastOne = o;
 					} else {
 						dat.rdy(o);
 						m = 1;
 						mn.music(0);
+						dat.lastOne = 1;
 					}
 				}
 			}
@@ -40,9 +45,18 @@ rfid.hdScan = function (arr) {
 	if (m === 2) {
 		mn.music(2);
 	}
+	if (dat.lastOne && rfid.tid === 0) {
+		if (dat.lastOne === 1) {
+			tools.topDoe(outDoe);
+		} else {
+			tools.topDoe(outDoe, dat.lastOne.whDoe);
+		}
+		dat.lastOne = null;
+	}
 };
 
 dat = {
+	lastOne: null,
 	rid: null,	// 入库单号
 	count: 0,	// 总数
 	oknum: 0,	// 已出库数
@@ -55,7 +69,7 @@ dat = {
 		var o = mn.qryWs("ckspwedivice_json", "{\"outWeInfoid\":\"" + dat.rid + "\"}");
 		if (o.ok && o.STORAGE_DEVICE_OUT.length) {
 			dat.hdDatR(o.STORAGE_DEVICE_OUT);
-			dat.hdDat(o["STORAGE_DEVICE_OUT：ISCK"]);
+			dat.hdDat(o["STORAGE_DEVICE_OUT_ISCK"]);
 		}
 	},
 

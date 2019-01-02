@@ -157,17 +157,26 @@ public class WebSrv {
 //				"\"meth\":\"getcksqlist_json\"," +
 //				"\"parm\":null" +
 //		"}"));
-		System.out.println(ws.jsonQry("call", "{" +
-				"\"meth\":\"ckspwedivice_json\"," +
-				"\"parm\":" + gson.toJson("{" +
-					"\"outWeInfoid\":\"402980a367c90e860167c923700d0025\"" +
-				"}") +
-		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"ckspwedivice_json\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"outWeInfoid\":\"402980a367c90e860167c923700d0025\"" +
+//				"}") +
+//		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"divicefindbydbmandsn\"," +
 //				"\"parm\":" + gson.toJson("{" +
 //					"\"dbm\":\"SBJGQX00000000201811290002\"" +
 //				"}") +
+//		"}"));
+		System.out.println(ws.jsonQry("call", "{" +
+				"\"meth\":\"getsysspecialtylistbycjtime\"," +
+				"\"parm\":" + gson.toJson("{" +
+					"\"cjtime\":\"2018-11-11 11:11:11\"" +
+				"}") +
+		"}"));
+//		System.out.println(ws.jsonQry("getsysspecialtylistbycjtime", "{" +
+//				"\"cjtime\":\"2018-11-11 11:11:11\"" +
 //		"}"));
 	}
 }

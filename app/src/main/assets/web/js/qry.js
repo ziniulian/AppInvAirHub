@@ -12,25 +12,33 @@ rfid.hdScan = function (arr) {
 			o.whTim += arr[i].tim;
 			o.whTimDoe.innerHTML = o.whTim;
 			m = 2;
+			dat.lastOne = o;
 		} else {
 			o = mn.parseEpcObj(e);
 			if (o) {
 				dat.crtTag(o, arr[i].tim);
 				m = 2;
+				dat.lastOne = o;
 			}
 		}
 	}
 	if (m) {
 		mn.music(m);
 	}
+	if (dat.lastOne && rfid.tid === 0) {
+		tools.topDoe(outDoe, dat.lastOne.whDoe);
+		dat.lastOne = null;
+	}
 };
 
 dat = {
+	lastOne: null,
+	link: "info.html?rid=",
 	ts: {},		// 设备明细
 
 	// 生成标签
 	crtTag: function (o, tim) {
-		var b, r, d;
+		var b, r, d, a;
 		o.whTim = tim;
 
 		r = document.createElement("tr");
@@ -53,10 +61,16 @@ dat = {
 		o.whTimDoe.className = "wh_tb_t sfs";
 		o.whTimDoe.innerHTML = o.whTim;
 		d.appendChild(o.whTimDoe);
-
 		b.appendChild(d);
+
+		// 设备详情链接
+		a = document.createElement("a");
+		a.className = "qry_a";
+		a.href = dat.link + o.dbm;
+		a.appendChild(b);
+
 		d = document.createElement("td");
-		d.appendChild(b);
+		d.appendChild(a);
 		r.appendChild(d);
 
 		o.whDoe = r;

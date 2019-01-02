@@ -25,6 +25,8 @@ public enum EmUrl {
 	Setting("file:///android_asset/web/s01/setting.html"),
 	SignIn("file:///android_asset/web/s01/signIn.html"),
 	Home("file:///android_asset/web/s01/home.html"),
+	Info("file:///android_asset/web/s01/info.html"),
+	Log("file:///android_asset/web/s01/log.html"),
 	WhInList("file:///android_asset/web/s01/whInList.html"),
 	WhIn("file:///android_asset/web/s01/whIn.html"),
 	WhOutList("file:///android_asset/web/s01/whOutList.html"),

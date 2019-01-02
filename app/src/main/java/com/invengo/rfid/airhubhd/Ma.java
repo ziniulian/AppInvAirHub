@@ -44,6 +44,7 @@ public class Ma extends Activity {
 		WebSettings ws = wv.getSettings();
 		ws.setDefaultTextEncodingName("UTF-8");
 		ws.setJavaScriptEnabled(true);
+//		wv.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
 		wv.addJavascriptInterface(w, "rfdo");
 
 		sendUrl(EmUrl.Transition);

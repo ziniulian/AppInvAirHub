@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Qry</title>
+		<title>Log</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, minimum-scale=1.0" />
 		<meta charset="utf-8" />
 
@@ -9,12 +9,12 @@
 		<link href="../css/s01.css" rel="stylesheet" type="text/css" />
 
 		<script src="../js/main.js"></script>
-		<script src="../js/rfid.js"></script>
-		<script src="../js/qry.js"></script>
+		<script src="../js/tools.js"></script>
+		<script src="../js/log.js"></script>
 
 		<style type="text/css">
 			.wh_tb_k {
-				width: 15%;
+				width: 70%;
 			}
 		</style>
 	</head>
@@ -22,20 +22,12 @@
 	<body>
 		<div id="boso" class="boso Lc_noadr hom_bg">
 			<div class="hom_top clr_bar bfs">
-				查询
+				领用记录
 			</div>
-			<div id="outDoe" class="wh_body">
+			<div id="outDoe" class="hom_body">
 				<table class="wh_out_tb">
-					<tbody id="listDom"></tbody>
+					<tbody id="listDoe"></tbody>
 				</table>
-			</div>
-			<div class="wh_bot midOut">
-				<div class="midTop"></div><!--
-				--><div class="midSub sign_in_btn clr_bar mfs"
-					ontouchstart="this.className = 'midSub sign_in_btn clr_bar mfs sign_in_btn_scd';"
-					ontouchend="this.className = 'midSub sign_in_btn clr_bar mfs';dat.clear();">
-					清空
-				</div>
 			</div>
 		</div>
 	</body>
