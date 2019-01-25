@@ -3,6 +3,8 @@ function init() {
 	if (o.rid) {
 		dat.rid = o.rid;
 		dat.getDat();
+	} else {
+		dat.noDat();
 	}
 }
 
@@ -12,24 +14,65 @@ dat = {
 	getDat: function () {
 		var o = mn.qryWs("divicefindbydbmandsn", "{\"dbm\":\"" + dat.rid +"\"}");
 		if (o.ok && o.DEVICE.length) {
+			dat.flushInfo(o.DEVICE[0]);
 			for (var i = 0; i < o.DEVICE.length; i ++) {
-				dat.flush(o.DEVICE[0]);
+				dat.flush(o.DEVICE[i]);
 			}
+		} else {
+			dat.noDat();
+		}
+	},
+
+	noDat: function () {
+		outDoe.innerHTML = "<div class='midOut memo mfs'>无法获取设备详情</div>";
+	},
+
+	flushInfo: function (o) {
+		dat.crtDom(infoDoe, "名称", ":", o.sbname);
+		if (o.serialNumber) {
+			dat.crtDom(infoDoe, "S/N", ":", o.serialNumber);
+		}
+		dat.crtDom(infoDoe, "型号", ":", o.ggxhname);
+		dat.crtDom(infoDoe, "品牌", ":", o.brandname);
+		dat.crtDom(infoDoe, "分类", ":", o.zyidname);
+		dat.crtDom(infoDoe, "序号", ":", dat.rid.substring(14, 26));
+
+		// 状态
+		if (!o.statename) {
+			switch (o.state) {
+				case "002":
+					o.statename = "已入库";
+					break;
+				case "003":
+					o.statename = "已出库";
+					break;
+				default:
+					o.statename = "未入库";
+			}
+		}
+		dat.crtDom(infoDoe, "状态", ":", o.statename);
+
+		// 成色
+		if (o.saveStatename) {
+			dat.crtDom(infoDoe, "成色", ":", o.saveStatename);
 		}
 	},
 
 	flush: function (o) {
-		var s, k, r, b, d;
+		var s, user, tim, r, b, d;
 
 		// 状态
 		switch (o.state) {
 			case "002":
 				s = "入库";
-				k = "rktime";
+				// user = "rkuserid";
+				user = "lyrname";
+				tim = "rktime";
 				break;
 			case "003":
-				s = "出库";
-				k = "jytime";
+				s = "领用";
+				user = "lyrname";
+				tim = "lytime";
 				break;
 		}
 
@@ -39,7 +82,8 @@ dat = {
 			b.className = "wh_tb sfs";
 			d = document.createElement("tbody");
 
-			dat.crtDom(d, o[k], ",", s);
+			dat.crtDom(d, s + "人", ":", o[user]);
+			dat.crtDom(d, s + "时间", ":", o[tim]);
 
 			b.appendChild(d);
 			d = document.createElement("td");

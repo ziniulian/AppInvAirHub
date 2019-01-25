@@ -170,11 +170,17 @@ public class WebSrv {
 //				"}") +
 //		"}"));
 		System.out.println(ws.jsonQry("call", "{" +
-				"\"meth\":\"getsysspecialtylistbycjtime\"," +
+				"\"meth\":\"divicefindbydbmandsn\"," +
 				"\"parm\":" + gson.toJson("{" +
-					"\"cjtime\":\"2018-11-11 11:11:11\"" +
+					"\"dbm\":\"SSJ2JS00100000201811300009\"" +
 				"}") +
 		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"getsysspecialtylistbycjtime\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"cjtime\":\"2018-11-11 11:11:11\"" +
+//				"}") +
+//		"}"));
 //		System.out.println(ws.jsonQry("getsysspecialtylistbycjtime", "{" +
 //				"\"cjtime\":\"2018-11-11 11:11:11\"" +
 //		"}"));

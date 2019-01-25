@@ -1,6 +1,15 @@
 function init() {
-	// dat.crtTag(mn.parseEpcObj("SJSJTX00102003201811260004"), 3);
-	// dat.crtTag(mn.parseEpcObj("XJSJXX01001008201811260004"), 3);
+	var s = mn.kvGet("qryIds");
+	if (s) {
+		var a, o, i;
+		a = JSON.parse(s);
+		for (i = 0; i < a.length; i ++) {
+			o = mn.parseEpcObj(a[i]);
+			if (o) {
+				dat.crtTag(o, 0);
+			}
+		}
+	}
 }
 
 rfid.hdScan = function (arr) {
@@ -33,12 +42,13 @@ rfid.hdScan = function (arr) {
 
 dat = {
 	lastOne: null,
-	link: "info.html?rid=",
+	link: "log.html?rid=",
 	ts: {},		// 设备明细
+	ids: [],	// 设备编号集合
 
 	// 生成标签
 	crtTag: function (o, tim) {
-		var b, r, d, a;
+		var b, r, d;
 		o.whTim = tim;
 
 		r = document.createElement("tr");
@@ -59,23 +69,26 @@ dat = {
 		// 次数统计
 		o.whTimDoe = document.createElement("div");
 		o.whTimDoe.className = "wh_tb_t sfs";
-		o.whTimDoe.innerHTML = o.whTim;
+		if (o.whTim) {
+			o.whTimDoe.innerHTML = o.whTim;
+		}
 		d.appendChild(o.whTimDoe);
 		b.appendChild(d);
 
-		// 设备详情链接
-		a = document.createElement("a");
-		a.className = "qry_a";
-		a.href = dat.link + o.dbm;
-		a.appendChild(b);
-
 		d = document.createElement("td");
-		d.appendChild(a);
+		d.appendChild(b);
+
+		r.rid = o.dbm;
+		r.ontouchstart = dat.tuS;
+		r.ontouchend = dat.tuE;
+		r.onclick = dat.tuDo;
 		r.appendChild(d);
 
 		o.whDoe = r;
 		listDom.appendChild(r);
+
 		dat.ts[o.dbm] = o;
+		dat.ids.push(o.dbm);
 	},
 
 	crtDom: function (b, k, g, v) {
@@ -100,10 +113,25 @@ dat = {
 		for (s in dat.ts) {
 			delete dat.ts[s];
 		}
+		dat.ids = [];
 		listDom.innerHTML = "";
 	},
 
+	tuS: function () {
+		this.className = "qry_scd";
+	},
+
+	tuE: function () {
+		this.className = "";
+	},
+
+	tuDo: function () {
+		mn.kvSet("qryIds", JSON.stringify(dat.ids));
+		window.location.href = (dat.link + this.rid);
+	},
+
 	back: function () {
+		mn.kvSet("qryIds", "");
 		window.history.back();
 	}
 };
