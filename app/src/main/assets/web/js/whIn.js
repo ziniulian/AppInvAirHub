@@ -85,7 +85,8 @@ dat = {
 			if (o.serialNumber) {
 				dat.crtDom(d, "S/N", ":", o.serialNumber);
 			}
-			dat.crtDom(d, "型号", ":", o.ggidname);
+			// dat.crtDom(d, "型号", ":", o.ggidname);
+			dat.crtDom(d, "型号", ":", o.model);
 			dat.crtDom(d, "品牌", ":", o.supplieridname);
 			dat.crtDom(d, "分类", ":", o.zyidname);
 			dat.crtDom(d, "序号", ":", o.dbm.substring(14, 26));

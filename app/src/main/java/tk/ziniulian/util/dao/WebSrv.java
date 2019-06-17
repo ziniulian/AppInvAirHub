@@ -128,13 +128,13 @@ public class WebSrv {
 //				"\"meth\":\"hello\"," +
 //				"\"parm\":null" +
 //		"}"));
-//		System.out.println(ws.jsonQry("call", "{" +
-//				"\"meth\":\"login_json\"," +
-//				"\"parm\":" + gson.toJson("{" +
-//					"\"usercode\":\"admin\"," +
-//					"\"userpwd\":\"admin\"" +
-//				"}") +
-//		"}"));
+		System.out.println(ws.jsonQry("call", "{" +
+				"\"meth\":\"login_json\"," +
+				"\"parm\":" + gson.toJson("{" +
+					"\"usercode\":\"admin\"," +
+					"\"userpwd\":\"admin\"" +
+				"}") +
+		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"getrksqlist_json\"," +
 //				"\"parm\":null" +
@@ -169,12 +169,12 @@ public class WebSrv {
 //					"\"dbm\":\"SBJGQX00000000201811290002\"" +
 //				"}") +
 //		"}"));
-		System.out.println(ws.jsonQry("call", "{" +
-				"\"meth\":\"divicefindbydbmandsn\"," +
-				"\"parm\":" + gson.toJson("{" +
-					"\"dbm\":\"SSJ2JS00100000201811300009\"" +
-				"}") +
-		"}"));
+//		System.out.println(ws.jsonQry("call", "{" +
+//				"\"meth\":\"divicefindbydbmandsn\"," +
+//				"\"parm\":" + gson.toJson("{" +
+//					"\"dbm\":\"SSJ2JS00100000201811300009\"" +
+//				"}") +
+//		"}"));
 //		System.out.println(ws.jsonQry("call", "{" +
 //				"\"meth\":\"getsysspecialtylistbycjtime\"," +
 //				"\"parm\":" + gson.toJson("{" +

@@ -85,6 +85,7 @@ dat = {
 					cls: t.zyidname,
 					clsCod: t.zyid,
 					gg: t.ggidname,
+					// gg: t.model,
 					pp: t.supplieridname,
 					whId: dat.rts.length,
 					whTim: 0,
@@ -102,7 +103,7 @@ dat = {
 
 				// 数据内容
 				o.whImgDoe = dat.crtDom(o.whTbDoe, 0, "", o.nam);
-				dat.crtDom(o.whTbDoe, "型号", ":", o.gg);
+				dat.crtDom(o.whTbDoe, "规格", ":", o.gg);
 				o.whPpDoe = dat.crtDom(o.whTbDoe, "品牌", ":", o.pp);
 				o.whClsDoe = dat.crtDom(o.whTbDoe, "分类", ":", o.cls);
 
@@ -162,6 +163,7 @@ dat = {
 			o = dat.match(a[i].dbm, {
 				cls: a[i].zyidname,
 				gg: a[i].ggidname,
+				// gg: a[i].model,
 				sn: a[i].serialnumber,
 				pp: a[i].supplieridname
 			});
@@ -188,6 +190,7 @@ dat = {
 						if (k.ok) {
 							k = k["DEVICE"][0];
 							m.gg = k.ggxhname;
+							// m.gg = k.model;
 							m.sn = k.serialNumber;
 							m.pp = k.brandname;
 							m.cls = k.zyidname;
